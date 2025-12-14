@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Top Shelf Grill</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body.mobile-view .nav-links { display: none !important; }
+        body.mobile-view .mobile-menu-icon { display: block !important; }
+        body.mobile-view .hero-title { font-size: 42px !important; }
+        body.mobile-view .hero-subtitle { font-size: 18px !important; }
+        body.mobile-view .section-title { font-size: 36px !important; }
+        body.mobile-view .grid-3 { grid-template-columns: 1fr !important; }
+        body.mobile-view .grid-2 { grid-template-columns: 1fr !important; }
+        body.mobile-view .nav-container { padding: 0 20px !important; }
+        body.mobile-view .section-padding { padding: 60px 20px !important; }
+        body.mobile-view .logo-text { font-size: 24px !important; }
+        body.mobile-view .contact-grid { grid-template-columns: 1fr !important; }
+        body.mobile-view .steps-grid { grid-template-columns: 1fr !important; }
+        
+        .view-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 2000;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .view-toggle:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(212,175,55,0.6); }
+        .view-toggle.compact { padding: 10px 14px; font-size: 12px; border-radius: 20px; box-shadow: 0 3px 10px rgba(212,175,55,0.3); }
+        .view-toggle.compact:hover { transform: scale(1.08); }
+        .view-toggle .btn-text { display: inline; transition: opacity 0.2s ease; }
+        .view-toggle.compact .btn-text { display: none; }
+        
+        input:focus, select:focus, textarea:focus { border-color: #d4af37 !important; outline: none; }
+
+        .mobile-menu-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 3000; opacity: 0; transition: opacity 0.3s ease; }
+        .mobile-menu-overlay.active { display: block; opacity: 1; }
+        .mobile-menu-panel { position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); z-index: 3001; transition: right 0.3s ease; box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5); overflow-y: auto; }
+        .mobile-menu-panel.active { right: 0; }
+        .mobile-menu-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid #3a3a3a; }
+        .mobile-menu-header .menu-title { font-family: 'Playfair Display', serif; font-size: 24px; color: #d4af37; font-weight: 700; }
+        .mobile-menu-close { background: none; border: none; color: #d4af37; font-size: 32px; cursor: pointer; padding: 5px; line-height: 1; }
+        .mobile-menu-close:hover { color: #f4f4f4; }
+        .mobile-menu-links { padding: 20px 0; }
+        .mobile-menu-links a { display: block; padding: 18px 25px; color: #f4f4f4; text-decoration: none; font-size: 18px; font-weight: 600; border-bottom: 1px solid #3a3a3a; transition: background 0.2s ease, color 0.2s ease; }
+        .mobile-menu-links a:hover { background: rgba(212, 175, 55, 0.1); color: #d4af37; }
+        .mobile-menu-links a.active { color: #d4af37; background: rgba(212, 175, 55, 0.15); border-left: 4px solid #d4af37; }
+        .mobile-menu-footer { padding: 25px; border-top: 1px solid #3a3a3a; margin-top: 20px; }
+        .mobile-menu-footer p { color: #aaaaaa; font-size: 14px; margin: 0 0 15px 0; }
+        .mobile-menu-footer a { color: #d4af37; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #f4f4f4;">
+    
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    
+    <div class="mobile-menu-panel">
+        <div class="mobile-menu-header">
+            <span class="menu-title">Menu</span>
+            <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
+        </div>
+        <nav class="mobile-menu-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="findus.html">Find Us</a>
+        </nav>
+        <div class="mobile-menu-footer">
+            <p>Give us a call:</p>
+            <a href="tel:+15551234567">(555) 123-4567</a>
+        </div>
+    </div>
+
+    <button class="view-toggle" onclick="toggleView()">
+        <span class="btn-icon">📱</span>
+        <span class="btn-text"> Mobile View</span>
+    </button>
+    
+    <nav style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1000;">
+        <div class="nav-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 40px;">
+            <div class="logo-text" style="font-family: 'Playfair Display', serif; font-size: 32px; color: #d4af37; font-weight: 700; letter-spacing: 2px;">TOP SHELF</div>
+            <div class="nav-links" style="display: flex; gap: 35px;">
+                <a href="index.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">HOME</a>
+                <a href="about.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">ABOUT US</a>
+                <a href="contact.html" style="color: #d4af37; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s; border-bottom: 2px solid #d4af37;">CONTACT</a>
+                <a href="findus.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">FIND US</a>
+            </div>
+            <div class="mobile-menu-icon" style="display: none;" onclick="openMobileMenu()">
+                <span style="color: #d4af37; font-size: 28px; cursor: pointer;">☰</span>
+            </div>
+        </div>
+    </nav>
+
+    <section style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1556910096-6f5e72db6803?w=1600') center/cover no-repeat; height: 50vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative;">
+        <div style="max-width: 900px; padding: 40px;">
+            <h1 class="hero-title" style="font-family: 'Playfair Display', serif; font-size: 68px; margin: 0 0 25px 0; color: #d4af37; text-shadow: 3px 3px 8px rgba(0,0,0,0.8); letter-spacing: 3px;">Get In Touch</h1>
+            <p class="hero-subtitle" style="font-size: 24px; margin: 0; color: #f4f4f4; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 300; letter-spacing: 1px;">Let's Talk About Your Next Event</p>
+        </div>
+    </section>
+
+    <section class="section-padding" style="padding: 100px 40px; background-color: #242424;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
+                
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 50px; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); border: 1px solid #3a3a3a;">
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 38px; color: #d4af37; margin-bottom: 15px; letter-spacing: 1px;">Send Us a Message</h2>
+                    <p style="font-size: 16px; color: #aaaaaa; margin-bottom: 40px; line-height: 1.7;">Fill out the form and we'll get back to you within a day. We're excited to hear about your event!</p>
+                    
+                    <form style="display: flex; flex-direction: column; gap: 25px;">
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">YOUR NAME *</label>
+                            <input type="text" name="name" required style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">EMAIL *</label>
+                            <input type="email" name="email" required style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">PHONE NUMBER</label>
+                            <input type="tel" name="phone" style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">WHAT KIND OF EVENT?</label>
+                            <select name="event-type" style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                                <option value="">Pick one...</option>
+                                <option value="wedding">Wedding</option>
+                                <option value="corporate">Work Event / Company Party</option>
+                                <option value="birthday">Birthday Party</option>
+                                <option value="graduation">Graduation Party</option>
+                                <option value="reunion">Family Reunion</option>
+                                <option value="private">Private Party</option>
+                                <option value="other">Something Else</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">WHEN'S THE EVENT?</label>
+                            <input type="date" name="date" style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">ABOUT HOW MANY GUESTS?</label>
+                            <input type="number" name="guests" placeholder="e.g., 50" style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; box-sizing: border-box; transition: border-color 0.3s;">
+                        </div>
+                        
+                        <div>
+                            <label style="display: block; font-size: 14px; color: #d4af37; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px;">TELL US MORE *</label>
+                            <textarea name="message" required rows="6" placeholder="What are you thinking? Any food preferences, dietary needs, or questions? We want to hear it all!" style="width: 100%; padding: 16px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 6px; color: #f4f4f4; font-size: 16px; font-family: 'Montserrat', sans-serif; resize: vertical; box-sizing: border-box; transition: border-color 0.3s; line-height: 1.6;"></textarea>
+                        </div>
+                        
+                        <button type="submit" style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #1a1a1a; padding: 18px 35px; border: none; border-radius: 8px; font-weight: 700; font-size: 17px; cursor: pointer; box-shadow: 0 6px 20px rgba(212,175,55,0.4); transition: transform 0.3s; font-family: 'Montserrat', sans-serif; letter-spacing: 0.5px;">SEND MESSAGE</button>
+                    </form>
+                </div>
+
+                <div>
+                    <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 50px; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); border: 1px solid #3a3a3a; margin-bottom: 30px;">
+                        <h2 style="font-family: 'Playfair Display', serif; font-size: 38px; color: #d4af37; margin-bottom: 15px; letter-spacing: 1px;">Other Ways to Reach Us</h2>
+                        <p style="font-size: 16px; color: #aaaaaa; margin-bottom: 35px; line-height: 1.7;">Prefer to call or email directly? Here's how to get in touch.</p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 20px;">
+                            <a href="tel:+15551234567" style="display: flex; align-items: center; gap: 20px; padding: 22px 25px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 8px; text-decoration: none; transition: border-color 0.3s;">
+                                <div style="font-size: 36px;">📞</div>
+                                <div>
+                                    <div style="font-size: 13px; color: #aaaaaa; margin-bottom: 5px;">GIVE US A CALL</div>
+                                    <div style="font-size: 20px; color: #d4af37; font-weight: 700;">(555) 123-4567</div>
+                                </div>
+                            </a>
+                            
+                            <a href="mailto:hello@topshelfgrill.com" style="display: flex; align-items: center; gap: 20px; padding: 22px 25px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 8px; text-decoration: none; transition: border-color 0.3s;">
+                                <div style="font-size: 36px;">✉️</div>
+                                <div>
+                                    <div style="font-size: 13px; color: #aaaaaa; margin-bottom: 5px;">SEND AN EMAIL</div>
+                                    <div style="font-size: 18px; color: #d4af37; font-weight: 700;">hello@topshelfgrill.com</div>
+                                </div>
+                            </a>
+                            
+                            <div style="display: flex; align-items: center; gap: 20px; padding: 22px 25px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 8px;">
+                                <div style="font-size: 36px;">🕐</div>
+                                <div>
+                                    <div style="font-size: 13px; color: #aaaaaa; margin-bottom: 5px;">OFFICE HOURS</div>
+                                    <div style="font-size: 16px; color: #f4f4f4; font-weight: 600;">Mon-Fri: 9am - 6pm</div>
+                                    <div style="font-size: 15px; color: #aaaaaa; margin-top: 3px;">Sat: 10am - 4pm</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 40px; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); border: 1px solid #3a3a3a;">
+                        <h3 style="font-family: 'Playfair Display', serif; font-size: 26px; color: #d4af37; margin-bottom: 20px;">Find Us Online</h3>
+                        <div style="display: flex; flex-direction: column; gap: 15px;">
+                            <a href="#" style="display: flex; align-items: center; gap: 15px; padding: 18px 25px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 8px; text-decoration: none; transition: border-color 0.3s;">
+                                <div style="font-size: 32px;">📘</div>
+                                <div>
+                                    <div style="font-size: 12px; color: #aaaaaa; margin-bottom: 3px;">FOLLOW US ON</div>
+                                    <div style="font-size: 16px; color: #d4af37; font-weight: 600;">Facebook</div>
+                                </div>
+                            </a>
+                            
+                            <a href="#" style="display: flex; align-items: center; gap: 15px; padding: 18px 25px; background-color: #1a1a1a; border: 2px solid #3a3a3a; border-radius: 8px; text-decoration: none; transition: border-color 0.3s;">
+                                <div style="font-size: 32px;">📷</div>
+                                <div>
+                                    <div style="font-size: 12px; color: #aaaaaa; margin-bottom: 3px;">CHECK OUT</div>
+                                    <div style="font-size: 16px; color: #d4af37; font-weight: 600;">Instagram</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="padding: 80px 40px; background: linear-gradient(135deg, #1a1a1a 0%, #2c1810 100%); text-align: center;">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 42px; color: #d4af37; margin-bottom: 25px; letter-spacing: 2px;">Here's How It Works</h2>
+            <div class="steps-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 50px;">
+                <div>
+                    <div style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin: 0 auto 20px auto;">1</div>
+                    <h3 style="font-size: 20px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">You Reach Out</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">Send us a message or give us a call. Tell us about your event—we're all ears!</p>
+                </div>
+                
+                <div>
+                    <div style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin: 0 auto 20px auto;">2</div>
+                    <h3 style="font-size: 20px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">We Plan Together</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">We'll chat about your menu, guest count, and budget. No pressure, just planning.</p>
+                </div>
+                
+                <div>
+                    <div style="background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin: 0 auto 20px auto;">3</div>
+                    <h3 style="font-size: 20px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">We Make It Happen</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">On your big day, we show up, cook up a storm, and leave everyone happy and full.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="padding: 100px 40px; background-color: #242424;">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 48px; color: #d4af37; margin-bottom: 20px; text-align: center; letter-spacing: 2px;">Common Questions</h2>
+            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 0 auto 60px auto;"></div>
+            
+            <div style="display: flex; flex-direction: column; gap: 25px;">
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 35px; border-radius: 10px; border: 1px solid #3a3a3a;">
+                    <h3 style="font-size: 20px; color: #d4af37; margin-bottom: 15px; font-weight: 600;">How far ahead should I book?</h3>
+                    <p style="font-size: 16px; color: #cccccc; line-height: 1.8;">We recommend getting in touch 4-6 weeks before your event, especially during busy season (May through October). But if you're in a pinch, reach out anyway—we'll do our best to help.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 35px; border-radius: 10px; border: 1px solid #3a3a3a;">
+                    <h3 style="font-size: 20px; color: #d4af37; margin-bottom: 15px; font-weight: 600;">Can you handle food allergies and special diets?</h3>
+                    <p style="font-size: 16px; color: #cccccc; line-height: 1.8;">Absolutely! Vegetarian, vegan, gluten-free, nut allergies—just let us know. We'll work with you to make sure everyone at your event has something delicious to eat.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 35px; border-radius: 10px; border: 1px solid #3a3a3a;">
+                    <h3 style="font-size: 20px; color: #d4af37; margin-bottom: 15px; font-weight: 600;">What's included when I book you?</h3>
+                    <p style="font-size: 16px; color: #cccccc; line-height: 1.8;">We bring everything—grills, equipment, food, servers, and we clean up after. You don't have to lift a finger. Just tell us where to set up and we handle the rest.</p>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 35px; border-radius: 10px; border: 1px solid #3a3a3a;">
+                    <h3 style="font-size: 20px; color: #d4af37; margin-bottom: 15px; font-weight: 600;">Where do you serve?</h3>
+                    <p style="font-size: 16px; color: #cccccc; line-height: 1.8;">We're based in New Jersey and cover most of the state. If you're a bit outside our usual area, just ask—we're often happy to travel for the right event.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background: linear-gradient(135deg, #2c1810 0%, #0d0d0d 100%); padding: 60px 40px 30px 40px; text-align: center; border-top: 3px solid #d4af37;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="font-family: 'Playfair Display', serif; font-size: 36px; color: #d4af37; margin-bottom: 20px; letter-spacing: 2px;">TOP SHELF GRILL</div>
+            <p style="font-size: 16px; color: #aaaaaa; margin-bottom: 30px;">Family-Owned Catering · Proudly Serving Our Community</p>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
+                <a href="index.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">Home</a>
+                <a href="about.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">About</a>
+                <a href="contact.html" style="color: #d4af37; text-decoration: none; font-size: 14px;">Contact</a>
+                <a href="findus.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">Find Us</a>
+            </div>
+            <p style="font-size: 14px; color: #666666; margin-top: 30px;">© 2024 Top Shelf Grill. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleView() {
+            const body = document.body;
+            const button = document.querySelector('.view-toggle');
+            const btnText = button.querySelector('.btn-text');
+            
+            if (body.classList.contains('mobile-view')) {
+                body.classList.remove('mobile-view');
+                button.classList.remove('compact');
+                btnText.textContent = ' Mobile View';
+                button.querySelector('.btn-icon').textContent = '📱';
+                closeMobileMenu();
+            } else {
+                body.classList.add('mobile-view');
+                button.classList.add('compact');
+                btnText.textContent = ' Desktop';
+                button.querySelector('.btn-icon').textContent = '💻';
+            }
+        }
+
+        function openMobileMenu() {
+            document.querySelector('.mobile-menu-overlay').classList.add('active');
+            document.querySelector('.mobile-menu-panel').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileMenu() {
+            document.querySelector('.mobile-menu-overlay').classList.remove('active');
+            document.querySelector('.mobile-menu-panel').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+
+</body>
+</html>

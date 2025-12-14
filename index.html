@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Shelf Grill - Family-Owned Event Catering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Mobile view overrides */
+        body.mobile-view .nav-links { display: none !important; }
+        body.mobile-view .mobile-menu-icon { display: block !important; }
+        body.mobile-view .hero-title { font-size: 42px !important; }
+        body.mobile-view .hero-subtitle { font-size: 18px !important; }
+        body.mobile-view .section-title { font-size: 36px !important; }
+        body.mobile-view .grid-3 { grid-template-columns: 1fr !important; }
+        body.mobile-view .grid-2 { grid-template-columns: 1fr !important; }
+        body.mobile-view .grid-4 { grid-template-columns: 1fr 1fr !important; }
+        body.mobile-view .nav-container { padding: 0 20px !important; }
+        body.mobile-view .section-padding { padding: 60px 20px !important; }
+        body.mobile-view .logo-text { font-size: 24px !important; }
+        body.mobile-view .cta-buttons { flex-direction: column !important; align-items: center !important; }
+        body.mobile-view .cta-buttons a { width: 100%; max-width: 300px; text-align: center; }
+        
+        /* View toggle button - default state */
+        .view-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 2000;
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.4);
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .view-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.6);
+        }
+        
+        /* View toggle - compact state when mobile view is active */
+        .view-toggle.compact {
+            padding: 10px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(212,175,55,0.3);
+        }
+        .view-toggle.compact:hover {
+            transform: scale(1.08);
+        }
+        
+        .view-toggle .btn-text {
+            display: inline;
+            transition: opacity 0.2s ease;
+        }
+        .view-toggle.compact .btn-text {
+            display: none;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .mobile-menu-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Mobile Menu Panel */
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100%;
+            background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%);
+            z-index: 3001;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+            overflow-y: auto;
+        }
+        .mobile-menu-panel.active {
+            right: 0;
+        }
+
+        /* Mobile Menu Header */
+        .mobile-menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        .mobile-menu-header .menu-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #d4af37;
+            font-weight: 700;
+        }
+        .mobile-menu-close {
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 32px;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+        .mobile-menu-close:hover {
+            color: #f4f4f4;
+        }
+
+        /* Mobile Menu Links */
+        .mobile-menu-links {
+            padding: 20px 0;
+        }
+        .mobile-menu-links a {
+            display: block;
+            padding: 18px 25px;
+            color: #f4f4f4;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid #3a3a3a;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .mobile-menu-links a:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+        }
+        .mobile-menu-links a.active {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.15);
+            border-left: 4px solid #d4af37;
+        }
+
+        /* Mobile Menu Footer */
+        .mobile-menu-footer {
+            padding: 25px;
+            border-top: 1px solid #3a3a3a;
+            margin-top: 20px;
+        }
+        .mobile-menu-footer p {
+            color: #aaaaaa;
+            font-size: 14px;
+            margin: 0 0 15px 0;
+        }
+        .mobile-menu-footer a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; background-color: #1a1a1a; color: #f4f4f4;">
+    
+    <!-- Mobile Menu Overlay (closes menu when clicked) -->
+    <div class="mobile-menu-overlay" onclick="closeMobileMenu()"></div>
+    
+    <!-- Mobile Menu Panel -->
+    <div class="mobile-menu-panel">
+        <div class="mobile-menu-header">
+            <span class="menu-title">Menu</span>
+            <button class="mobile-menu-close" onclick="closeMobileMenu()">×</button>
+        </div>
+        <nav class="mobile-menu-links">
+            <a href="index.html" class="active">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="findus.html">Find Us</a>
+        </nav>
+        <div class="mobile-menu-footer">
+            <p>Give us a call:</p>
+            <a href="tel:+15551234567">(555) 123-4567</a>
+        </div>
+    </div>
+
+    <!-- View Toggle Button -->
+    <button class="view-toggle" onclick="toggleView()">
+        <span class="btn-icon">📱</span>
+        <span class="btn-text"> Mobile View</span>
+    </button>
+    
+    <!-- Navigation Bar -->
+    <nav style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 20px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.5); position: sticky; top: 0; z-index: 1000;">
+        <div class="nav-container" style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 40px;">
+            <div class="logo-text" style="font-family: 'Playfair Display', serif; font-size: 32px; color: #d4af37; font-weight: 700; letter-spacing: 2px;">TOP SHELF</div>
+            <div class="nav-links" style="display: flex; gap: 35px;">
+                <a href="index.html" style="color: #d4af37; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s; border-bottom: 2px solid #d4af37;">HOME</a>
+                <a href="about.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">ABOUT US</a>
+                <a href="contact.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">CONTACT</a>
+                <a href="findus.html" style="color: #f4f4f4; text-decoration: none; font-weight: 600; font-size: 16px; transition: color 0.3s;">FIND US</a>
+            </div>
+            <div class="mobile-menu-icon" style="display: none;" onclick="openMobileMenu()">
+                <span style="color: #d4af37; font-size: 28px; cursor: pointer;">☰</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section style="position: relative; min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden;">
+        <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1600&q=80" alt="Grilled food" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)); z-index: 0;"></div>
+        <div style="max-width: 900px; padding: 40px 20px; position: relative; z-index: 1;">
+            <h1 class="hero-title" style="font-family: 'Playfair Display', serif; font-size: 72px; margin: 0 0 25px 0; color: #d4af37; text-shadow: 3px 3px 8px rgba(0,0,0,0.8); letter-spacing: 3px; line-height: 1.2;">GREAT FOOD, GREAT TIMES</h1>
+            <p class="hero-subtitle" style="font-size: 26px; margin: 0 0 40px 0; color: #f4f4f4; text-shadow: 2px 2px 6px rgba(0,0,0,0.8); font-weight: 300; letter-spacing: 1px;">Family-Owned Grilling & Catering for Your Next Get-Together</p>
+            <a href="contact.html" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #1a1a1a; padding: 18px 45px; text-decoration: none; font-weight: 700; font-size: 18px; border-radius: 50px; box-shadow: 0 6px 20px rgba(212,175,55,0.4); transition: transform 0.3s; letter-spacing: 1px;">BOOK YOUR EVENT</a>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section class="section-padding" style="padding: 100px 40px; background-color: #242424; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 52px; color: #d4af37; margin-bottom: 20px; letter-spacing: 2px;">What We Do</h2>
+            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 0 auto 60px auto;"></div>
+            
+            <div class="grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px;">
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 45px 35px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid #3a3a3a; transition: transform 0.3s;">
+                    <div style="background: url('https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=500&q=80') center/cover; height: 220px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);"></div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #d4af37; margin-bottom: 18px;">Event Grilling</h3>
+                    <p style="font-size: 16px; line-height: 1.8; color: #cccccc;">We bring the grill to you! Live cooking that smells amazing and gets everyone excited. Perfect for company picnics, weddings, and backyard parties. We set up, cook, and clean up—you just enjoy.</p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 45px 35px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid #3a3a3a; transition: transform 0.3s;">
+                    <div style="background: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=500&q=80') center/cover; height: 220px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);"></div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #d4af37; margin-bottom: 18px;">Full Catering</h3>
+                    <p style="font-size: 16px; line-height: 1.8; color: #cccccc;">From burgers to brisket, fresh sides to homemade sauces—we've got your whole menu covered. Tell us what you like and how many folks are coming, and we'll put together something everyone will love.</p>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #2c1810 0%, #1a1a1a 100%); padding: 45px 35px; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); border: 1px solid #3a3a3a; transition: transform 0.3s;">
+                    <div style="background: url('https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=500&q=80') center/cover; height: 220px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.4);"></div>
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #d4af37; margin-bottom: 18px;">Custom Menus</h3>
+                    <p style="font-size: 16px; line-height: 1.8; color: #cccccc;">Got dietary needs? Picky eaters? No problem. We work with you to build a menu that fits your crowd. Vegetarian, gluten-free, kid-friendly—we make it work.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Event Catering Showcase -->
+    <section class="section-padding" style="padding: 100px 40px; background: linear-gradient(135deg, #1a1a1a 0%, #2c1810 100%);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+                <div>
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 48px; color: #d4af37; margin-bottom: 30px; letter-spacing: 2px;">Good Food Brings People Together</h2>
+                    <p style="font-size: 18px; line-height: 1.9; color: #cccccc; margin-bottom: 25px;">Whether it's a small family gathering or a big company event, Top Shelf Grill is here to help make it special. Our team cooks everything fresh, right in front of your guests—nothing tastes better than food straight off the grill.</p>
+                    <p style="font-size: 18px; line-height: 1.9; color: #cccccc; margin-bottom: 25px;">We've been doing this for years because we genuinely love it. Weddings, birthday parties, office cookouts, graduation celebrations—you name it. Every event gets our full attention because we know how much these moments mean to you.</p>
+                    <p style="font-size: 18px; line-height: 1.9; color: #cccccc;">Our goal is simple: serve great food, treat your guests like family, and leave everyone with a full belly and a smile.</p>
+                </div>
+                <div style="background: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=700&q=80') center/cover; height: 500px; border-radius: 12px; box-shadow: 0 12px 40px rgba(0,0,0,0.6); border: 3px solid #d4af37;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="section-padding" style="padding: 100px 40px; background-color: #242424; text-align: center;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 52px; color: #d4af37; margin-bottom: 20px; letter-spacing: 2px;">Why Folks Choose Us</h2>
+            <div style="width: 80px; height: 4px; background: linear-gradient(90deg, transparent, #d4af37, transparent); margin: 0 auto 60px auto;"></div>
+            
+            <div class="grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 35px; margin-top: 60px;">
+                <div style="padding: 30px 20px;">
+                    <div style="font-size: 56px; color: #d4af37; margin-bottom: 20px;">🔥</div>
+                    <h3 style="font-size: 22px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">Experienced Cooks</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">Our team knows their way around a grill. Years of practice means your food comes out perfect every time.</p>
+                </div>
+                
+                <div style="padding: 30px 20px;">
+                    <div style="font-size: 56px; color: #d4af37; margin-bottom: 20px;">⭐</div>
+                    <h3 style="font-size: 22px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">Fresh Ingredients</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">We use quality meats and fresh produce—no shortcuts. You can taste the difference.</p>
+                </div>
+                
+                <div style="padding: 30px 20px;">
+                    <div style="font-size: 56px; color: #d4af37; margin-bottom: 20px;">🎉</div>
+                    <h3 style="font-size: 22px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">Fun Atmosphere</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">We bring good energy to every event. Our crew loves what they do, and it shows.</p>
+                </div>
+                
+                <div style="padding: 30px 20px;">
+                    <div style="font-size: 56px; color: #d4af37; margin-bottom: 20px;">✓</div>
+                    <h3 style="font-size: 22px; color: #f4f4f4; margin-bottom: 15px; font-weight: 600;">Stress-Free Service</h3>
+                    <p style="font-size: 15px; color: #aaaaaa; line-height: 1.7;">We handle everything so you can actually enjoy your own party. Setup, cooking, cleanup—all covered.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section-padding" style="padding: 120px 40px; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1600&q=80') center/cover; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto; padding: 0 20px;">
+            <h2 class="section-title" style="font-family: 'Playfair Display', serif; font-size: 56px; color: #d4af37; margin-bottom: 30px; letter-spacing: 2px;">Ready to Plan Your Event?</h2>
+            <p style="font-size: 20px; color: #f4f4f4; margin-bottom: 50px; line-height: 1.8;">Let's talk about what you have in mind. We'll put together a menu and quote that works for you.</p>
+            <div class="cta-buttons" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="contact.html" style="display: inline-block; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #1a1a1a; padding: 20px 50px; text-decoration: none; font-weight: 700; font-size: 18px; border-radius: 50px; box-shadow: 0 6px 20px rgba(212,175,55,0.4); letter-spacing: 1px;">GET IN TOUCH</a>
+                <a href="about.html" style="display: inline-block; background: transparent; color: #d4af37; padding: 20px 50px; text-decoration: none; font-weight: 700; font-size: 18px; border-radius: 50px; border: 2px solid #d4af37; letter-spacing: 1px;">LEARN MORE</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: linear-gradient(135deg, #2c1810 0%, #0d0d0d 100%); padding: 60px 40px 30px 40px; text-align: center; border-top: 3px solid #d4af37;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div style="font-family: 'Playfair Display', serif; font-size: 36px; color: #d4af37; margin-bottom: 20px; letter-spacing: 2px;">TOP SHELF GRILL</div>
+            <p style="font-size: 16px; color: #aaaaaa; margin-bottom: 30px;">Family-Owned Catering · Proudly Serving Our Community</p>
+            <div style="display: flex; justify-content: center; gap: 30px; margin-bottom: 30px; flex-wrap: wrap;">
+                <a href="index.html" style="color: #d4af37; text-decoration: none; font-size: 14px;">Home</a>
+                <a href="about.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">About</a>
+                <a href="contact.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">Contact</a>
+                <a href="findus.html" style="color: #aaaaaa; text-decoration: none; font-size: 14px;">Find Us</a>
+            </div>
+            <p style="font-size: 14px; color: #666666; margin-top: 30px;">&copy; 2024 Top Shelf Grill. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle between desktop and mobile view
+        function toggleView() {
+            const body = document.body;
+            const button = document.querySelector('.view-toggle');
+            const btnText = button.querySelector('.btn-text');
+            
+            if (body.classList.contains('mobile-view')) {
+                body.classList.remove('mobile-view');
+                button.classList.remove('compact');
+                btnText.textContent = ' Mobile View';
+                button.querySelector('.btn-icon').textContent = '📱';
+                closeMobileMenu();
+            } else {
+                body.classList.add('mobile-view');
+                button.classList.add('compact');
+                btnText.textContent = ' Desktop';
+                button.querySelector('.btn-icon').textContent = '💻';
+            }
+        }
+
+        // Open mobile menu
+        function openMobileMenu() {
+            document.querySelector('.mobile-menu-overlay').classList.add('active');
+            document.querySelector('.mobile-menu-panel').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close mobile menu
+        function closeMobileMenu() {
+            document.querySelector('.mobile-menu-overlay').classList.remove('active');
+            document.querySelector('.mobile-menu-panel').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    </script>
+
+</body>
+</html>
